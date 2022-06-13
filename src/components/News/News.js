@@ -1,21 +1,28 @@
 import * as React from "react";
 
 import { NewsItem } from "../../components";
-import SampleJson from "../../sampleOutput.json";
 
 class News extends React.Component {
-  articles = SampleJson.articles;
   constructor() {
     super();
     this.state = {
-      articles: this.articles,
+      articles: [],
       loading: false,
     };
+  }
+
+  async componentDidMount() {
+    const url = `https://newsapi.org/v2/top-headlines?country=in&apiKey=de92fc484f2845d9914a416365f13adc`;
+    const response = await fetch(url);
+    const responseData = await response.json();
+    this.setState({
+      articles: responseData.articles,
+    });
   }
   render() {
     return (
       <div className="container my-3 news">
-        <h2>Top Headlines!</h2>
+        <h1>Top Headlines!</h1>
         <div className="row">
           {this.state.articles.map((article) => {
             return (
