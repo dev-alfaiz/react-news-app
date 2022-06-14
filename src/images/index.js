@@ -1,2 +1,3 @@
 import no_preview from "./no_preview.jpg";
-export { no_preview };
+import loading from "./loading.gif";
+export { no_preview, loading };

@@ -7,7 +7,7 @@ class App extends React.Component {
     return (
       <div className="app">
         <Navbar />
-        <News />
+        <News pageSize={20} />
       </div>
     );
   }
