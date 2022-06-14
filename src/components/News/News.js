@@ -2,6 +2,8 @@ import * as React from "react";
 
 import { NewsItem, Spinner } from "../../components";
 
+import { API_KEY } from "../env";
+
 class News extends React.Component {
   constructor() {
     super();
@@ -13,7 +15,7 @@ class News extends React.Component {
   }
 
   async componentDidMount() {
-    const url = `https://newsapi.org/v2/top-headlines?country=in&apiKey=de92fc484f2845d9914a416365f13adc&page=1&pageSize=${this.props.pageSize}`;
+    const url = `https://newsapi.org/v2/top-headlines?country=in&apiKey=${API_KEY}&page=1&pageSize=${this.props.pageSize}`;
     this.setState({ loading: true });
     const response = await fetch(url);
     const responseData = await response.json();
@@ -25,7 +27,7 @@ class News extends React.Component {
   }
 
   handlePreviousClick = async () => {
-    const url = `https://newsapi.org/v2/top-headlines?country=in&apiKey=de92fc484f2845d9914a416365f13adc&page=${
+    const url = `https://newsapi.org/v2/top-headlines?country=in&apiKey=${API_KEY}&page=${
       this.state.page === 1 ? 1 : this.state.page - 1
     }&pageSize=${this.props.pageSize}`;
     this.setState({ loading: true });
@@ -45,7 +47,7 @@ class News extends React.Component {
         Math.ceil(this.state.totalResults / this.props.pageSize)
       )
     ) {
-      const url = `https://newsapi.org/v2/top-headlines?country=in&apiKey=de92fc484f2845d9914a416365f13adc&page=${
+      const url = `https://newsapi.org/v2/top-headlines?country=in&apiKey=${API_KEY}&page=${
         this.state.page + 1
       }&pageSize=${this.props.pageSize}`;
       this.setState({ loading: true });
