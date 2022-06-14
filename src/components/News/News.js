@@ -97,6 +97,8 @@ class News extends React.Component {
                     description={article.description}
                     imageUrl={article.urlToImage}
                     newsUrl={article.url}
+                    author={article.author}
+                    date={article.publishedAt}
                   />
                 </div>
               );
