@@ -1,10 +1,23 @@
 import * as React from "react";
+import PropTypes from "prop-types";
 
 import { NewsItem, Spinner } from "../../components";
 
 import { API_KEY } from "../env";
 
 class News extends React.Component {
+  static defaultProps = {
+    pageSize: 20,
+    country: "in",
+    category: "general",
+  };
+
+  static propTypes = {
+    pageSize: PropTypes.number,
+    country: PropTypes.string,
+    category: PropTypes.string,
+  };
+
   constructor() {
     super();
     this.state = {
@@ -15,7 +28,7 @@ class News extends React.Component {
   }
 
   async componentDidMount() {
-    const url = `https://newsapi.org/v2/top-headlines?country=in&apiKey=${API_KEY}&page=1&pageSize=${this.props.pageSize}`;
+    const url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${API_KEY}&page=1&pageSize=${this.props.pageSize}`;
     this.setState({ loading: true });
     const response = await fetch(url);
     const responseData = await response.json();
@@ -27,7 +40,9 @@ class News extends React.Component {
   }
 
   handlePreviousClick = async () => {
-    const url = `https://newsapi.org/v2/top-headlines?country=in&apiKey=${API_KEY}&page=${
+    const url = `https://newsapi.org/v2/top-headlines?country=${
+      this.props.country
+    }&category=${this.props.category}&apiKey=${API_KEY}&page=${
       this.state.page === 1 ? 1 : this.state.page - 1
     }&pageSize=${this.props.pageSize}`;
     this.setState({ loading: true });
@@ -47,7 +62,9 @@ class News extends React.Component {
         Math.ceil(this.state.totalResults / this.props.pageSize)
       )
     ) {
-      const url = `https://newsapi.org/v2/top-headlines?country=in&apiKey=${API_KEY}&page=${
+      const url = `https://newsapi.org/v2/top-headlines?country=${
+        this.props.country
+      }&category=${this.props.category}&apiKey=${API_KEY}&page=${
         this.state.page + 1
       }&pageSize=${this.props.pageSize}`;
       this.setState({ loading: true });
@@ -64,7 +81,11 @@ class News extends React.Component {
   render() {
     return (
       <div className="container my-3 news">
-        <h1 className="text-center">Top Headlines!</h1>
+        <h1 className="text-center" style={{ margin: "35px 0px" }}>
+          Top Headlines! -{" "}
+          {this.props.category.charAt(0).toUpperCase() +
+            this.props.category.slice(1)}
+        </h1>
         {this.state.loading && <Spinner />}
         <div className="row">
           {!this.state.loading &&
